@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="signup-container">
+        <form id="signupForm" class="signup-form">
+            <h2>Sign Up</h2>
+            <div class="input-group">
+                <label for="new-username">Username</label>
+                <input type="text" id="new-username" name="new-username" required>
+            </div>
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="input-group">
+                <label for="contact">Contact Number</label>
+                <input type="tel" id="contact" name="contact" required>
+            </div>
+            <div class="input-group">
+                <label for="new-password">Password</label>
+                <input type="password" id="new-password" name="new-password" required>
+            </div>
+            
+            <div class="captcha-container">
+                <input type="checkbox" id="humanCheck" required>
+                <label for="humanCheck">I am not a robot</label>
+            </div>
+            
+            <div class="input-group">
+                <label for="captcha">Solve: <span id="num1"></span> + <span id="num2"></span> = ?</label>
+                <input type="number" id="captcha" name="captcha" required>
+            </div>
+            
+            <button type="submit">Sign Up</button>
+            <p>Already have an account? <a href="index.html">Login</a></p>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let num1 = Math.floor(Math.random() * 10) + 1;
+            let num2 = Math.floor(Math.random() * 10) + 1;
+            document.getElementById("num1").textContent = num1;
+            document.getElementById("num2").textContent = num2;
+
+            document.getElementById('signupForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                let captchaAnswer = parseInt(document.getElementById("captcha").value);
+                let isHuman = document.getElementById("humanCheck").checked;
+                
+                if (!isHuman) {
+                    alert("Please confirm you are not a robot.");
+                    return;
+                }
+                
+                if (captchaAnswer !== num1 + num2) {
+                    alert("Incorrect captcha answer. Try again.");
+                    return;
+                }
+                
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>

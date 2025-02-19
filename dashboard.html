@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .pos-container {
+            text-align: center;
+            padding: 20px;
+        }
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .product {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            width: 200px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .product img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        .cart-container {
+            margin-top: 20px;
+        }
+        .receipt-container {
+            display: none;
+            text-align: left;
+            border: 1px solid black;
+            padding: 15px;
+            margin: 20px auto;
+            width: 300px;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="pos-container">
+        <h1>Point of Sale System</h1>
+        <div class="products">
+            <div class="product" data-name="Product 1" data-price="10">
+                <img src="images/product1.jpg" alt="Product 1">
+                <p>Product 1 - $10</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Product 2" data-price="15">
+                <img src="images/product2.jpg" alt="Product 2">
+                <p>Product 2 - $15</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Product 2" data-price="15">
+                <img src="images/product2.jpg" alt="Product 2">
+                <p>Product 2 - $15</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Product 2" data-price="15">
+                <img src="images/product2.jpg" alt="Product 2">
+                <p>Product 2 - $15</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Product 2" data-price="15">
+                <img src="images/product2.jpg" alt="Product 2">
+                <p>Product 2 - $15</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Product 2" data-price="15">
+                <img src="images/product2.jpg" alt="Product 2">
+                <p>Product 2 - $15</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Product 2" data-price="15">
+                <img src="images/product2.jpg" alt="Product 2">
+                <p>Product 2 - $15</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Product 2" data-price="15">
+                <img src="images/product2.jpg" alt="Product 2">
+                <p>Product 2 - $15</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Product 2" data-price="15">
+                <img src="images/product2.jpg" alt="Product 2">
+                <p>Product 2 - $15</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+        <div class="cart-container">
+            <h2>Cart</h2>
+            <ul id="cart"></ul>
+            <h3>Total: $<span id="total">0</span></h3>
+            <button id="checkout">Checkout</button>
+        </div>
+        <div class="receipt-container" id="receipt">
+            <h2>Receipt</h2>
+            <ul id="receipt-items"></ul>
+            <h3>Total: $<span id="receipt-total">0</span></h3>
+            <button onclick="printReceipt()">Print Receipt</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const cart = [];
+            const cartList = document.getElementById("cart");
+            const totalElement = document.getElementById("total");
+            const receiptContainer = document.getElementById("receipt");
+            const receiptItems = document.getElementById("receipt-items");
+            const receiptTotal = document.getElementById("receipt-total");
+
+            document.querySelectorAll(".add-to-cart").forEach(button => {
+                button.addEventListener("click", function() {
+                    const product = this.parentElement;
+                    const name = product.getAttribute("data-name");
+                    const price = parseFloat(product.getAttribute("data-price"));
+                    
+                    cart.push({ name, price });
+                    updateCart();
+                });
+            });
+
+            document.getElementById("checkout").addEventListener("click", function() {
+                if (cart.length === 0) {
+                    alert("Your cart is empty!");
+                    return;
+                }
+                
+                receiptItems.innerHTML = "";
+                let total = 0;
+                cart.forEach(item => {
+                    total += item.price;
+                    const li = document.createElement("li");
+                    li.textContent = `${item.name} - $${item.price}`;
+                    receiptItems.appendChild(li);
+                });
+                receiptTotal.textContent = total.toFixed(2);
+                receiptContainer.style.display = "block";
+            });
+
+            function updateCart() {
+                cartList.innerHTML = "";
+                let total = 0;
+                cart.forEach(item => {
+                    total += item.price;
+                    const li = document.createElement("li");
+                    li.textContent = `${item.name} - $${item.price}`;
+                    cartList.appendChild(li);
+                });
+                totalElement.textContent = total.toFixed(2);
+            }
+        });
+            function printReceipt() {
+            const receiptContent = document.getElementById('receipt').innerHTML;
+            const originalContent = document.body.innerHTML;
+            document.body.innerHTML = `<div>${receiptContent}</div>`;
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload();
+        }
+    </script>
+</body>
+</html>
